@@ -1,11 +1,14 @@
 
-# ChatGPT Saver (C)2023 by SZ @ X3EM
+# ChatGPT Saver (C)2023-24 by SZ @ X3EM
 **Saves Chats from ChatGPT+, ChatDOC, ChatPDF, BingGPT, ChatYouTube, ClipDrop Stable Diffusion & FireFly to your local TEXT file! 
 <br>No Warranties provided whatsoever!** 
 
 New **EASY** installation - download, unzip(if needed) and run ***Install.html***
 ![Install Instructions](HowInstall.png)
 ![Zip Download](DownloadZip.png)
+
+**Update 06/24/2024:** Fixed OpenAi website change from openai to chatgpt.com
+
 
 **Update 04/26/2023:** Fixed OpenAi tables update & added new Blobs Image Pop. Opens any blob images on separate tabs. 
 Note: Some blob images expire so save them right away if you need.
