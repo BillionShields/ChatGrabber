@@ -1,3 +1,8 @@
+Update: August 2026
+New version with installer 
+[Open ChatGrabber v3 Installer](ChatGrabber_v3_install.html)
+
+
 
 # ChatGPT Saver (C)2023-24 by SZ @ X3EM
 **Saves Chats from ChatGPT+, ChatDOC, ChatPDF, BingGPT, ChatYouTube, ClipDrop Stable Diffusion & FireFly to your local TEXT file! 
