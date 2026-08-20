@@ -1,5 +1,9 @@
 Update: August 2026
 New version with installer 
+
+[Run ChatGrabber Installer](https://raw.githubusercontent.com/BillionShields/ChatGrabber/c9a54915c5402e750d46bed6275f1f3d27d24991/ChatGrabber_v3_install.html)
+
+
 [Open ChatGrabber v3 Installer](ChatGrabber_v3_install.html)
 
 
