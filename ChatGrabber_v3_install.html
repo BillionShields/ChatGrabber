@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChatGrabber v3 — install</title>
+<style>
+  :root {
+    --bg: #0b0b0d;
+    --panel: #141417;
+    --border: #26262b;
+    --text: #e8e8ea;
+    --dim: #8b8b93;
+    --accent: #6ee7b7;
+    --accent2: #f0b429;
+    --mono: ui-monospace, "SF Mono", Consolas, "Liberation Mono", monospace;
+    --sans: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text); font: 15px/1.6 var(--sans);
+    padding: 48px 20px 80px;
+  }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 {
+    font: 700 26px/1.3 var(--sans); margin: 0 0 6px; letter-spacing: -0.01em;
+  }
+  h1 .v { color: var(--accent2); font-family: var(--mono); font-size: 15px; font-weight: 600;
+          border: 1px solid var(--border); border-radius: 999px; padding: 2px 10px; margin-left: 8px; vertical-align: middle; }
+  .lede { color: var(--dim); margin: 0 0 32px; font-size: 15px; }
+  .sites { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 36px; }
+  .site {
+    font-family: var(--mono); font-size: 12px; padding: 5px 10px; border-radius: 6px;
+    border: 1px solid var(--border); color: var(--dim);
+  }
+  .site.new { border-color: var(--accent); color: var(--accent); }
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 28px; margin-bottom: 20px;
+  }
+  .step-label {
+    font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--accent); margin: 0 0 12px;
+  }
+  .bookmarklet-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .bookmarklet-btn {
+    display: inline-block; font-family: var(--sans); font-weight: 600; font-size: 14px;
+    color: #0b0b0d; background: var(--accent); border-radius: 8px; padding: 12px 20px;
+    text-decoration: none; cursor: grab; border: 1px solid var(--accent); white-space: nowrap;
+    box-shadow: 0 1px 0 rgba(255,255,255,.25) inset;
+  }
+  .bookmarklet-btn:active { cursor: grabbing; }
+  .drag-hint { color: var(--dim); font-size: 13px; }
+  .drag-hint strong { color: var(--text); }
+  p { margin: 12px 0 0; color: var(--dim); font-size: 14px; }
+  code.inline {
+    font-family: var(--mono); background: #1c1c20; border: 1px solid var(--border); border-radius: 4px;
+    padding: 1px 6px; color: var(--text); font-size: 13px;
+  }
+  ol { color: var(--dim); font-size: 14px; padding-left: 20px; margin: 12px 0 0; }
+  ol li { margin: 4px 0; }
+  ol li::marker { color: var(--accent2); }
+  details { margin-top: 6px; }
+  summary {
+    cursor: pointer; font-size: 13px; color: var(--dim); user-select: none; padding: 4px 0;
+  }
+  summary:hover { color: var(--text); }
+  textarea {
+    width: 100%; height: 140px; margin-top: 10px; background: #0e0e11; color: var(--text);
+    border: 1px solid var(--border); border-radius: 8px; font-family: var(--mono); font-size: 12px;
+    padding: 12px; resize: vertical;
+  }
+  .copy-btn {
+    margin-top: 8px; font-family: var(--mono); font-size: 12px; background: transparent;
+    color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 7px 14px;
+    cursor: pointer;
+  }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  pre.source {
+    max-height: 480px; overflow: auto; background: #0e0e11; border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px; font-family: var(--mono); font-size: 12px; line-height: 1.55;
+    margin-top: 10px; white-space: pre;
+  }
+  .changelog { font-size: 13px; color: var(--dim); }
+  .changelog b { color: var(--text); }
+  footer { color: #4b4b52; font-size: 12px; margin-top: 40px; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <h1>ChatGrabber<span class="v">v3</span></h1>
+  <p class="lede">Drag the button below into your bookmarks bar. Click it on any supported conversation to download a self-contained .html export.</p>
+
+  <div class="sites">
+    <span class="site">chatgpt.com</span>
+    <span class="site">copilot.microsoft.com</span>
+    <span class="site">aistudio.google.com</span>
+    <span class="site new">claude.ai — new</span>
+  </div>
+
+  <div class="card">
+    <p class="step-label">Install</p>
+    <div class="bookmarklet-row">
+      <a class="bookmarklet-btn" href="javascript:%28async%28%29%3D%3E%7Bconst%20e%3D%22ChatGrabber%22%2Ct%3De%3D%3Enew%20Promise%28t%3D%3EsetTimeout%28t%2Ce%29%29%2Co%3De%3D%3Ee.replace%28%2F%5B%5C%5C%2F%3A%2A%3F%22%3C%3E%7C%5D%2B%2Fg%2C%22_%22%29.trim%28%29.slice%280%2C100%29%2Ca%3D%28%29%3D%3E%28new%20Date%29.toISOString%28%29.replace%28%2F%5B-%3AT%5D%2Fg%2C%22%22%29.slice%280%2C15%29%2Cn%3Ddocument.createElement%28%22div%22%29%3Bn.title%3De%2CObject.assign%28n.style%2C%7Bposition%3A%22fixed%22%2Cbottom%3A%2216px%22%2Cright%3A%2216px%22%2CzIndex%3A2147483647%2Cbackground%3A%22%23111%22%2Ccolor%3A%22%23fff%22%2Cfont%3A%2212px%2F1.4%20-apple-system%2CSegoe%20UI%2Csans-serif%22%2Cpadding%3A%228px%2012px%22%2CborderRadius%3A%228px%22%2CboxShadow%3A%220%202px%2010px%20rgba%280%2C0%2C0%2C.35%29%22%2CmaxWidth%3A%22260px%22%2CpointerEvents%3A%22none%22%7D%29%3Bconst%20s%3Dt%3D%3E%7Bn.textContent%3D%60%24%7Be%7D%3A%20%24%7Bt%7D%60%2Cn.isConnected%7C%7Cdocument.body.appendChild%28n%29%7D%2Cr%3D%5B%5B%22geminiai%22%2C%28%29%3D%3Elocation.hostname.includes%28%22aistudio.google.com%22%29%5D%2C%5B%22chatgpt%22%2C%28%29%3D%3E%2Fchatgpt%5C.com%7Copenai%5C.com%2F.test%28location.hostname%29%5D%2C%5B%22claudeai%22%2C%28%29%3D%3Elocation.hostname.includes%28%22claude.ai%22%29%5D%2C%5B%22copilot%22%2C%28%29%3D%3E%210%5D%5D.find%28%28%5B%2Ce%5D%29%3D%3Ee%28%29%29%5B0%5D%2Cl%3Dnew%20WeakMap%2Cc%3De%3D%3E%28l.has%28e%29%7C%7Cl.set%28e%2C%60msg-%24%7BMath.random%28%29.toString%2836%29.slice%282%29%7D%60%29%2Cl.get%28e%29%29%2Ci%3D%7Bchatgpt%3A%7BmessageSelector%3A%22%5Bdata-message-id%5D%5Bdata-message-author-role%5D%22%2CgetMessageId%3Ae%3D%3Ee.getAttribute%28%22data-message-id%22%29%2CgetRole%3Ae%3D%3E%22user%22%3D%3D%3De.getAttribute%28%22data-message-author-role%22%29%3F%22user%22%3A%22assistant%22%2CgetTitle%3A%28%29%3D%3E%28document.querySelector%28%22h1%22%29%3F.textContent%7C%7Cdocument.title%7C%7C%22%22%29.trim%28%29%2CscrollAnchorSelector%3A%22%5Bdata-message-id%5D%5Bdata-message-author-role%5D%2C%20%23thread%22%7D%2Ccopilot%3A%7BmessageSelector%3A%27%5Bid%24%3D%22-user-message%22%5D%2C%20%5Bdata-testid%3D%22ai-message%22%5D%27%2CgetMessageId%3Ae%3D%3Ee.id%3Fe.id%3Ae.getAttribute%28%22aria-labelledby%22%29%3Fe.getAttribute%28%22aria-labelledby%22%29%3Ac%28e%29%2CgetRole%3Ae%3D%3Ee.matches%28%27%5Bdata-testid%3D%22ai-message%22%5D%27%29%3F%22assistant%22%3A%22user%22%2CgetTitle%3A%28%29%3D%3E%7Bconst%20e%3Ddocument.querySelector%28%22a%5Bdata-sidebar-item%5D%5Bdata-active%5D%20span%22%29%7C%7Cdocument.querySelector%28%22%5Baria-selected%3D%27true%27%5D%20p%5Btitle%5D%22%29%3Breturn%28e%3Fe.getAttribute%28%22title%22%29%7C%7Ce.textContent%3A%22%22%29.trim%28%29%7D%2CscrollAnchorSelector%3A%27%5Bid%24%3D%22-user-message%22%5D%2C%20%5Bdata-testid%3D%22ai-message%22%5D%2C%20%23thread%2C%20div%5Bdata-content%3D%22conversation%22%5D%27%7D%2Cclaudeai%3A%7BmessageSelector%3A%27%5Bdata-testid%3D%22user-message%22%5D%2C%20.font-user-message%2C%20%5Bdata-testid%3D%22assistant-message%22%5D%2C%20.font-claude-message%2C%20.standard-markdown%27%2CgetMessageId%3Ae%3D%3Ec%28e%29%2CgetRole%3Ae%3D%3Ee.matches%28%27%5Bdata-testid%3D%22user-message%22%5D%2C%20.font-user-message%27%29%3F%22user%22%3A%22assistant%22%2CgetTitle%3A%28%29%3D%3E%28document.title%7C%7C%22%22%29.replace%28%2F%5Cs%2A%5B-%E2%80%93%5D%5Cs%2AClaude%5Cs%2A%24%2F%2C%22%22%29.trim%28%29%7C%7C%28document.querySelector%28%22h1%22%29%3F.textContent%7C%7C%22%22%29.trim%28%29%2CscrollAnchorSelector%3A%27%5Bdata-testid%3D%22user-message%22%5D%2C%20.font-user-message%2C%20%5Bdata-testid%3D%22assistant-message%22%5D%2C%20.font-claude-message%2C%20.standard-markdown%2C%20main%27%7D%2Cgeminiai%3A%7Blegacy%3A%210%2ClegacySelector%3A%22ms-prompt-renderer%22%2CgetTitle%3A%28%29%3D%3E%28document.querySelector%28%22h1.mode-title%22%29%3F.textContent%7C%7C%22%22%29.trim%28%29%7D%7D%5Br%5D%2Cd%3D%28e%2Ct%29%3D%3E%7Bif%280%3D%3D%3De.length%29return%20t%3Bfor%28let%20o%3DMath.min%28e.length%2Ct.length%29%3Bo%3E0%3Bo--%29if%28e.slice%28-o%29.join%28%22%5Cn%22%29%3D%3D%3Dt.slice%280%2Co%29.join%28%22%5Cn%22%29%29return%20e.concat%28t.slice%28o%29%29%3Breturn%20e.concat%28t%29%7D%2Cm%3Dasync%20e%3D%3E%7Bconst%20o%3De.querySelector%28%22.cm-scroller%22%29%7C%7Ce%2Ca%3D%28%29%3D%3EArray.from%28o.querySelectorAll%28%22.cm-line%22%29%29.map%28e%3D%3Ee.textContent%29%3Blet%20n%3Da%28%29%3Bif%28o.scrollHeight%3Eo.clientHeight%2B4%29%7Bconst%20e%3Do.scrollTop%3Bo.scrollTop%3D0%2Cawait%20t%28220%29%2Cn%3Da%28%29%3Blet%20s%3D-1%2Cr%3D0%3Bfor%28%3Bo.scrollTop%3Co.scrollHeight-o.clientHeight-2%26%26o.scrollTop%21%3D%3Ds%26%26r%3C400%3B%29s%3Do.scrollTop%2Co.scrollTop%3Ds%2B.8%2Ao.clientHeight%2Cawait%20t%28220%29%2Cn%3Dd%28n%2Ca%28%29%29%2Cr%2B%2B%3Bo.scrollTop%3De%7Dreturn%20n.join%28%22%5Cn%22%29%7D%2Cg%3De%3D%3E%7Bconst%20t%3De.querySelector%28%27%5Bclass%2A%3D%22justify-self-start%22%5D%27%29%3Breturn%28t%3Ft.textContent.trim%28%29%3A%22%22%29%7C%7C%22text%22%7D%3Blet%20u%3D0%3Bconst%20p%3Dnew%20Map%2Ch%3Dasync%20e%3D%3E%7Bconst%20t%3DArray.from%28e.querySelectorAll%28%22.cm-editor%22%29%29%3Bfor%28const%20e%20of%20t%29%7Bif%28e.dataset.grabberCmId%29continue%3Bconst%20t%3DString%28u%2B%2B%29%3Be.dataset.grabberCmId%3Dt%3Bconst%20o%3De.closest%28%22pre%22%29%7C%7Ce%3Btry%7Bconst%20a%3Dawait%20m%28e%29%3Bp.set%28t%2C%7Blanguage%3Ag%28o%29%2Ccode%3Aa%7D%29%7Dcatch%28a%29%7Bp.set%28t%2C%7Blanguage%3Ag%28o%29%2Ccode%3Ae.textContent%7D%29%7D%7D%7D%2Cf%3D%5B%22button%22%2C%22svg%22%2C%22textarea%22%2C%22input%22%2C%27%5Brole%3D%22toolbar%22%5D%27%2C%27%5Baria-hidden%3D%22true%22%5D%27%2C%22.sr-only%22%2C%27%5Bdata-testid%2A%3D%22reactions%22%5D%27%2C%27%5Bdata-testid%24%3D%22-button%22%5D%27%2C%27%5Bdata-testid%3D%22sentinel-div%22%5D%27%2C%27%5Bdata-testid%3D%22backstage-chats%22%5D%27%5D.join%28%22%2C%22%29%2Cx%3D%7BA%3A%5B%22href%22%2C%22title%22%5D%2CIMG%3A%5B%22src%22%2C%22alt%22%5D%2CTD%3A%5B%22colspan%22%2C%22rowspan%22%5D%2CTH%3A%5B%22colspan%22%2C%22rowspan%22%5D%2CCODE%3A%5B%22class%22%5D%7D%2Cb%3De%3D%3E%7Be.querySelectorAll%28%22%2A%22%29.forEach%28e%3D%3E%7Bconst%20t%3Dx%5Be.tagName%5D%7C%7C%5B%5D%3BArray.from%28e.attributes%29.forEach%28o%3D%3E%7Bt.includes%28o.name%29%7C%7Ce.removeAttribute%28o.name%29%7D%29%7D%29%7D%2Cy%3D%28e%2Ct%29%3D%3E%7Bconst%20o%3De.clone%3Breturn%20o.querySelectorAll%28%27%5Bid%2A%3D%22-content-%22%5D%27%29.forEach%28e%3D%3E%7Bconst%20o%3Dt.get%28e.id%29%3Bo%26%26o.textContent.trim%28%29.length%3Ee.textContent.trim%28%29.length%26%26e.replaceWith%28o.cloneNode%28%210%29%29%7D%29%2Co.querySelectorAll%28%22.cm-editor%5Bdata-grabber-cm-id%5D%22%29.forEach%28e%3D%3E%7Bconst%20t%3Dp.get%28e.dataset.grabberCmId%29%2Co%3Ddocument.createElement%28%22pre%22%29%2Ca%3Ddocument.createElement%28%22code%22%29%3Ba.className%3Dt%3F%60language-%24%7Bt.language.toLowerCase%28%29%7D%60%3A%22%22%2Ca.textContent%3Dt%3Ft.code%3Ae.textContent%2Co.appendChild%28a%29%2C%28e.closest%28%22pre%22%29%7C%7Ce%29.replaceWith%28o%29%7D%29%2Co.querySelectorAll%28f%29.forEach%28e%3D%3Ee.remove%28%29%29%2Cb%28o%29%2Co%7D%2Cw%3De%3D%3Enew%20Promise%28%28t%2Co%29%3D%3E%7Bconst%20a%3Dnew%20FileReader%3Ba.onload%3D%28%29%3D%3Et%28a.result%29%2Ca.onerror%3Do%2Ca.readAsDataURL%28e%29%7D%29%2CS%3Dasync%20e%3D%3E%7Bconst%20t%3Dnew%20Map%2Co%3DArray.from%28e.querySelectorAll%28%22img%5Bsrc%5D%22%29%29%3Bfor%28const%20e%20of%20o%29%7Bconst%20o%3Dnew%20URL%28e.getAttribute%28%22src%22%29%2Clocation.href%29.href%3Btry%7Bif%28%21t.has%28o%29%29%7Bs%28%22inlining%20image%E2%80%A6%22%29%3Bconst%20e%3Dawait%20fetch%28o%2C%7Bcredentials%3A%22include%22%7D%29%3Bif%28%21e.ok%29throw%20new%20Error%28%60HTTP%20%24%7Be.status%7D%60%29%3Bconst%20a%3Dawait%20e.blob%28%29%3Bif%28a.size%3E8388608%29throw%20new%20Error%28%22image%20too%20large%20to%20inline%22%29%3Bt.set%28o%2Cawait%20w%28a%29%29%7De.src%3Dt.get%28o%29%7Dcatch%28t%29%7Be.src%3Do%7D%7D%7D%2CC%3De%3D%3Ee.replace%28%2F%26%2Fg%2C%22%26amp%3B%22%29.replace%28%2F%3C%2Fg%2C%22%26lt%3B%22%29.replace%28%2F%3E%2Fg%2C%22%26gt%3B%22%29%2Cv%3D%28t%2Co%29%3D%3E%7Bconst%20a%3DC%28t%29%2Cn%3Do.map%28%28%7Brole%3Ae%2Chtml%3At%7D%29%3D%3E%60%5Cn%20%20%20%20%20%20%3Cdiv%20class%3D%22message%20%24%7Be%7D%22%3E%5Cn%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22role-label%22%3E%24%7B%22user%22%3D%3D%3De%3F%22You%22%3A%22Assistant%22%7D%3C%2Fdiv%3E%5Cn%20%20%20%20%20%20%20%20%24%7Bt%7D%5Cn%20%20%20%20%20%20%3C%2Fdiv%3E%60%29.join%28%22%5Cn%22%29%3Breturn%60%3C%21DOCTYPE%20html%3E%5Cn%3Chtml%3E%5Cn%3Chead%3E%5Cn%3Cmeta%20charset%3D%22utf-8%22%3E%5Cn%3Ctitle%3E%24%7Ba%7D%3C%2Ftitle%3E%5Cn%3Cstyle%3E%5Cn%20%20%20%20body%20%7B%20font%3A%2015px%2F1.6%20-apple-system%2CSegoe%20UI%2CHelvetica%2CArial%2Csans-serif%3B%20max-width%3A%20820px%3B%5Cn%20%20%20%20%20%20%20%20%20%20%20margin%3A%2032px%20auto%3B%20padding%3A%200%2016px%3B%20color%3A%20%231a1a1a%3B%20background%3A%20%23fff%3B%20%7D%5Cn%20%20%20%20h1.export-title%20%7B%20font-size%3A%2020px%3B%20margin-bottom%3A%204px%3B%20%7D%5Cn%20%20%20%20.export-meta%20%7B%20color%3A%20%23666%3B%20font-size%3A%2012px%3B%20margin-bottom%3A%2024px%3B%20%7D%5Cn%20%20%20%20.message%20%7B%20border-radius%3A%2012px%3B%20padding%3A%2014px%2018px%3B%20margin%3A%2014px%200%3B%20%7D%5Cn%20%20%20%20.message.user%20%7B%20background%3A%20%23eef3ff%3B%20%7D%5Cn%20%20%20%20.message.assistant%20%7B%20background%3A%20%23f6f6f7%3B%20%7D%5Cn%20%20%20%20.message%20.role-label%20%7B%20font-size%3A%2011px%3B%20text-transform%3A%20uppercase%3B%20letter-spacing%3A%20.04em%3B%5Cn%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23888%3B%20margin-bottom%3A%206px%3B%20%7D%5Cn%20%20%20%20.message%20img%20%7B%20max-width%3A%20100%25%3B%20border-radius%3A%208px%3B%20display%3A%20block%3B%20margin%3A%208px%200%3B%20%7D%5Cn%20%20%20%20.message%20pre%20%7B%20background%3A%20%231e1e1e%3B%20color%3A%20%23e6e6e6%3B%20padding%3A%2012px%2014px%3B%20border-radius%3A%208px%3B%5Cn%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20overflow-x%3A%20auto%3B%20font%3A%2013px%2F1.5%20ui-monospace%2CConsolas%2Cmonospace%3B%20%7D%5Cn%20%20%20%20.message%20code%20%7B%20font%3A%2013px%2F1.5%20ui-monospace%2CConsolas%2Cmonospace%3B%20%7D%5Cn%20%20%20%20.message%20%3Anot%28pre%29%20%3E%20code%20%7B%20background%3A%20%23eee%3B%20color%3A%20%231a1a1a%3B%20padding%3A%201px%205px%3B%20border-radius%3A%204px%3B%20%7D%5Cn%20%20%20%20.message%20table%20%7B%20border-collapse%3A%20collapse%3B%20width%3A%20100%25%3B%20margin%3A%2010px%200%3B%20%7D%5Cn%20%20%20%20.message%20th%2C%20.message%20td%20%7B%20border%3A%201px%20solid%20%23ddd%3B%20padding%3A%206px%2010px%3B%20text-align%3A%20left%3B%20%7D%5Cn%20%20%20%20.message%20blockquote%20%7B%20border-left%3A%203px%20solid%20%23ccc%3B%20margin%3A%208px%200%3B%20padding%3A%202px%2012px%3B%20color%3A%20%23555%3B%20%7D%5Cn%20%20%3C%2Fstyle%3E%5Cn%3C%2Fhead%3E%5Cn%3Cbody%3E%5Cn%3Ch1%20class%3D%22export-title%22%3E%24%7Ba%7D%3C%2Fh1%3E%5Cn%3Cdiv%20class%3D%22export-meta%22%3ESaved%20by%20%24%7Be%7D%20%E2%80%A2%20%24%7B%28new%20Date%29.toLocaleString%28%29%7D%20%E2%80%A2%20%24%7BC%28location.href%29%7D%3C%2Fdiv%3E%5Cn%24%7Bn%7D%5Cn%3C%2Fbody%3E%5Cn%3C%2Fhtml%3E%60%7D%2CT%3D%28t%2Co%29%3D%3E%7Bconst%20a%3Dnew%20Blob%28%5Bo%5D%2C%7Btype%3A%22text%2Fhtml%22%7D%29%2Cn%3DURL.createObjectURL%28a%29%2Cs%3Ddocument.createElement%28%22a%22%29%3Bs.href%3Dn%2Cs.download%3Dt%2Cs.title%3De%2Cdocument.body.appendChild%28s%29%2Cs.click%28%29%2Cdocument.body.removeChild%28s%29%2CURL.revokeObjectURL%28n%29%7D%3Btry%7Bif%28s%28%22starting%E2%80%A6%22%29%2Ci.legacy%29%7Bconst%20t%3Ddocument.querySelector%28i.legacySelector%29%3Bif%28%21t%29return%20void%20alert%28%60%24%7Be%7D%3A%20no%20conversation%20found%20on%20this%20page.%60%29%3Bconst%20n%3Dt.cloneNode%28%210%29%3Bn.querySelectorAll%28f%29.forEach%28e%3D%3Ee.remove%28%29%29%2Cb%28n%29%2Cs%28%22inlining%20images%E2%80%A6%22%29%2Cawait%20S%28n%29%3Bconst%20r%3Di.getTitle%28%29%7C%7C%60chatExport%24%7Ba%28%29%7D%60%2Cl%3Dv%28r%2C%5B%7Brole%3A%22assistant%22%2Chtml%3An.innerHTML%7D%5D%29%3Breturn%20void%20T%28%60%24%7Bo%28r%29%7D.html%60%2Cl%29%7Dconst%20r%3Ddocument.querySelector%28i.scrollAnchorSelector%29%3Bif%28%21r%29return%20void%20alert%28%60%24%7Be%7D%3A%20no%20conversation%20found%20on%20this%20page.%60%29%3Bconst%20l%3D%28e%3D%3E%7Blet%20t%3De%3Bfor%28%3Bt%26%26t%21%3D%3Ddocument.body%26%26t%21%3D%3Ddocument.documentElement%3B%29%7Bconst%20e%3DgetComputedStyle%28t%29%3Bif%28%2F%28auto%7Cscroll%29%2F.test%28e.overflowY%29%26%26t.scrollHeight%3Et.clientHeight%2B4%29return%20t%3Bt%3Dt.parentElement%7Dreturn%20document.scrollingElement%7C%7Cdocument.documentElement%7D%29%28r%29%3Bs%28%22scanning%20conversation%E2%80%A6%22%29%3Bconst%7BmessageSkeletonsById%3Ac%2CbestChunkById%3Ad%7D%3Dawait%28async%20e%3D%3E%7Bconst%20o%3Dnew%20Map%2Ca%3Dnew%20Map%2Cn%3Dasync%28%29%3D%3E%7Bconst%20e%3DArray.from%28document.querySelectorAll%28i.messageSelector%29%29.filter%28%28e%2Ct%2Co%29%3D%3E%21o.some%28t%3D%3Et%21%3D%3De%26%26t.contains%28e%29%29%29%3Bfor%28const%20t%20of%20e%29%7Bawait%20h%28t%29%3Bconst%20e%3Di.getMessageId%28t%29%3Bo.set%28e%2C%7Brole%3Ai.getRole%28t%29%2Cclone%3At.cloneNode%28%210%29%7D%29%7Ddocument.querySelectorAll%28%27%5Bid%2A%3D%22-content-%22%5D%27%29.forEach%28e%3D%3E%7Bconst%20t%3De.id%2Co%3De.textContent.trim%28%29.length%3Bif%280%3D%3D%3Do%29return%3Bconst%20n%3Da.get%28t%29%3B%28%21n%7C%7Co%3En.textContent.trim%28%29.length%29%26%26a.set%28t%2Ce.cloneNode%28%210%29%29%7D%29%7D%2Cr%3De.scrollTop%3Be.scrollTop%3D0%2Cawait%20t%28350%29%2Cawait%20n%28%29%3Blet%20l%3D-1%2Cc%3D0%3Bfor%28%3Be.scrollTop%3Ce.scrollHeight-e.clientHeight-2%26%26e.scrollTop%21%3D%3Dl%26%26c%3C400%3B%29l%3De.scrollTop%2Cs%28%60scanning%20conversation%E2%80%A6%20%28%24%7Bc%2B1%7D%29%60%29%2Ce.scrollTop%3Dl%2B.8%2Ae.clientHeight%2Cawait%20t%28220%29%2Cawait%20n%28%29%2Cc%2B%2B%3Breturn%20await%20t%28350%29%2Cawait%20n%28%29%2Ce.scrollTop%3Dr%2C%7BmessageSkeletonsById%3Ao%2CbestChunkById%3Aa%7D%7D%29%28l%29%3Bif%280%3D%3D%3Dc.size%29return%20void%20alert%28%60%24%7Be%7D%3A%20no%20messages%20could%20be%20captured.%60%29%3Bs%28%22cleaning%20up%E2%80%A6%22%29%3Bconst%20m%3D%5B%5D%3Bfor%28const%5B%2Ce%5Dof%20c%29m.push%28%7Brole%3Ae.role%2Cnode%3Ay%28e%2Cd%29%7D%29%3Bs%28%22inlining%20images%E2%80%A6%22%29%3Bfor%28const%20e%20of%20m%29await%20S%28e.node%29%3Bconst%20g%3Di.getTitle%28%29%7C%7C%60chatExport%24%7Ba%28%29%7D%60%2Cu%3Dv%28g%2Cm.map%28%28%7Brole%3Ae%2Cnode%3At%7D%29%3D%3E%28%7Brole%3Ae%2Chtml%3At.innerHTML%7D%29%29%29%3BT%28%60%24%7Bo%28g%29%7D_ChatExport.html%60%2Cu%29%2Cs%28%22done%20%E2%9C%93%22%29%2CsetTimeout%28%28%29%3D%3En.remove%28%29%2C1500%29%7Dcatch%28t%29%7Balert%28%60%24%7Be%7D%20failed%3A%20%24%7Bt.message%7D%60%29%7Dfinally%7BsetTimeout%28%28%29%3D%3En.remove%28%29%2C1500%29%7D%7D%29%28%29%3B" onclick="return false;" title="Drag me to your bookmarks bar">📥 ChatGrabber</a>
+      <span class="drag-hint">Drag onto your <strong>bookmarks bar</strong> — don't click.<br>No bar visible? <code class="inline">Ctrl/Cmd + Shift + B</code>.</span>
+    </div>
+    <details>
+      <summary>Bookmarks bar not showing, or drag not working? Copy the code instead</summary>
+      <ol>
+        <li>Create a new bookmark (any page, any name).</li>
+        <li>Edit it and paste the code below as the URL.</li>
+        <li>Save, then click that bookmark on a conversation page.</li>
+      </ol>
+      <textarea readonly onclick="this.select()">javascript:%28async%28%29%3D%3E%7Bconst%20e%3D%22ChatGrabber%22%2Ct%3De%3D%3Enew%20Promise%28t%3D%3EsetTimeout%28t%2Ce%29%29%2Co%3De%3D%3Ee.replace%28%2F%5B%5C%5C%2F%3A%2A%3F%22%3C%3E%7C%5D%2B%2Fg%2C%22_%22%29.trim%28%29.slice%280%2C100%29%2Ca%3D%28%29%3D%3E%28new%20Date%29.toISOString%28%29.replace%28%2F%5B-%3AT%5D%2Fg%2C%22%22%29.slice%280%2C15%29%2Cn%3Ddocument.createElement%28%22div%22%29%3Bn.title%3De%2CObject.assign%28n.style%2C%7Bposition%3A%22fixed%22%2Cbottom%3A%2216px%22%2Cright%3A%2216px%22%2CzIndex%3A2147483647%2Cbackground%3A%22%23111%22%2Ccolor%3A%22%23fff%22%2Cfont%3A%2212px%2F1.4%20-apple-system%2CSegoe%20UI%2Csans-serif%22%2Cpadding%3A%228px%2012px%22%2CborderRadius%3A%228px%22%2CboxShadow%3A%220%202px%2010px%20rgba%280%2C0%2C0%2C.35%29%22%2CmaxWidth%3A%22260px%22%2CpointerEvents%3A%22none%22%7D%29%3Bconst%20s%3Dt%3D%3E%7Bn.textContent%3D%60%24%7Be%7D%3A%20%24%7Bt%7D%60%2Cn.isConnected%7C%7Cdocument.body.appendChild%28n%29%7D%2Cr%3D%5B%5B%22geminiai%22%2C%28%29%3D%3Elocation.hostname.includes%28%22aistudio.google.com%22%29%5D%2C%5B%22chatgpt%22%2C%28%29%3D%3E%2Fchatgpt%5C.com%7Copenai%5C.com%2F.test%28location.hostname%29%5D%2C%5B%22claudeai%22%2C%28%29%3D%3Elocation.hostname.includes%28%22claude.ai%22%29%5D%2C%5B%22copilot%22%2C%28%29%3D%3E%210%5D%5D.find%28%28%5B%2Ce%5D%29%3D%3Ee%28%29%29%5B0%5D%2Cl%3Dnew%20WeakMap%2Cc%3De%3D%3E%28l.has%28e%29%7C%7Cl.set%28e%2C%60msg-%24%7BMath.random%28%29.toString%2836%29.slice%282%29%7D%60%29%2Cl.get%28e%29%29%2Ci%3D%7Bchatgpt%3A%7BmessageSelector%3A%22%5Bdata-message-id%5D%5Bdata-message-author-role%5D%22%2CgetMessageId%3Ae%3D%3Ee.getAttribute%28%22data-message-id%22%29%2CgetRole%3Ae%3D%3E%22user%22%3D%3D%3De.getAttribute%28%22data-message-author-role%22%29%3F%22user%22%3A%22assistant%22%2CgetTitle%3A%28%29%3D%3E%28document.querySelector%28%22h1%22%29%3F.textContent%7C%7Cdocument.title%7C%7C%22%22%29.trim%28%29%2CscrollAnchorSelector%3A%22%5Bdata-message-id%5D%5Bdata-message-author-role%5D%2C%20%23thread%22%7D%2Ccopilot%3A%7BmessageSelector%3A%27%5Bid%24%3D%22-user-message%22%5D%2C%20%5Bdata-testid%3D%22ai-message%22%5D%27%2CgetMessageId%3Ae%3D%3Ee.id%3Fe.id%3Ae.getAttribute%28%22aria-labelledby%22%29%3Fe.getAttribute%28%22aria-labelledby%22%29%3Ac%28e%29%2CgetRole%3Ae%3D%3Ee.matches%28%27%5Bdata-testid%3D%22ai-message%22%5D%27%29%3F%22assistant%22%3A%22user%22%2CgetTitle%3A%28%29%3D%3E%7Bconst%20e%3Ddocument.querySelector%28%22a%5Bdata-sidebar-item%5D%5Bdata-active%5D%20span%22%29%7C%7Cdocument.querySelector%28%22%5Baria-selected%3D%27true%27%5D%20p%5Btitle%5D%22%29%3Breturn%28e%3Fe.getAttribute%28%22title%22%29%7C%7Ce.textContent%3A%22%22%29.trim%28%29%7D%2CscrollAnchorSelector%3A%27%5Bid%24%3D%22-user-message%22%5D%2C%20%5Bdata-testid%3D%22ai-message%22%5D%2C%20%23thread%2C%20div%5Bdata-content%3D%22conversation%22%5D%27%7D%2Cclaudeai%3A%7BmessageSelector%3A%27%5Bdata-testid%3D%22user-message%22%5D%2C%20.font-user-message%2C%20%5Bdata-testid%3D%22assistant-message%22%5D%2C%20.font-claude-message%2C%20.standard-markdown%27%2CgetMessageId%3Ae%3D%3Ec%28e%29%2CgetRole%3Ae%3D%3Ee.matches%28%27%5Bdata-testid%3D%22user-message%22%5D%2C%20.font-user-message%27%29%3F%22user%22%3A%22assistant%22%2CgetTitle%3A%28%29%3D%3E%28document.title%7C%7C%22%22%29.replace%28%2F%5Cs%2A%5B-%E2%80%93%5D%5Cs%2AClaude%5Cs%2A%24%2F%2C%22%22%29.trim%28%29%7C%7C%28document.querySelector%28%22h1%22%29%3F.textContent%7C%7C%22%22%29.trim%28%29%2CscrollAnchorSelector%3A%27%5Bdata-testid%3D%22user-message%22%5D%2C%20.font-user-message%2C%20%5Bdata-testid%3D%22assistant-message%22%5D%2C%20.font-claude-message%2C%20.standard-markdown%2C%20main%27%7D%2Cgeminiai%3A%7Blegacy%3A%210%2ClegacySelector%3A%22ms-prompt-renderer%22%2CgetTitle%3A%28%29%3D%3E%28document.querySelector%28%22h1.mode-title%22%29%3F.textContent%7C%7C%22%22%29.trim%28%29%7D%7D%5Br%5D%2Cd%3D%28e%2Ct%29%3D%3E%7Bif%280%3D%3D%3De.length%29return%20t%3Bfor%28let%20o%3DMath.min%28e.length%2Ct.length%29%3Bo%3E0%3Bo--%29if%28e.slice%28-o%29.join%28%22%5Cn%22%29%3D%3D%3Dt.slice%280%2Co%29.join%28%22%5Cn%22%29%29return%20e.concat%28t.slice%28o%29%29%3Breturn%20e.concat%28t%29%7D%2Cm%3Dasync%20e%3D%3E%7Bconst%20o%3De.querySelector%28%22.cm-scroller%22%29%7C%7Ce%2Ca%3D%28%29%3D%3EArray.from%28o.querySelectorAll%28%22.cm-line%22%29%29.map%28e%3D%3Ee.textContent%29%3Blet%20n%3Da%28%29%3Bif%28o.scrollHeight%3Eo.clientHeight%2B4%29%7Bconst%20e%3Do.scrollTop%3Bo.scrollTop%3D0%2Cawait%20t%28220%29%2Cn%3Da%28%29%3Blet%20s%3D-1%2Cr%3D0%3Bfor%28%3Bo.scrollTop%3Co.scrollHeight-o.clientHeight-2%26%26o.scrollTop%21%3D%3Ds%26%26r%3C400%3B%29s%3Do.scrollTop%2Co.scrollTop%3Ds%2B.8%2Ao.clientHeight%2Cawait%20t%28220%29%2Cn%3Dd%28n%2Ca%28%29%29%2Cr%2B%2B%3Bo.scrollTop%3De%7Dreturn%20n.join%28%22%5Cn%22%29%7D%2Cg%3De%3D%3E%7Bconst%20t%3De.querySelector%28%27%5Bclass%2A%3D%22justify-self-start%22%5D%27%29%3Breturn%28t%3Ft.textContent.trim%28%29%3A%22%22%29%7C%7C%22text%22%7D%3Blet%20u%3D0%3Bconst%20p%3Dnew%20Map%2Ch%3Dasync%20e%3D%3E%7Bconst%20t%3DArray.from%28e.querySelectorAll%28%22.cm-editor%22%29%29%3Bfor%28const%20e%20of%20t%29%7Bif%28e.dataset.grabberCmId%29continue%3Bconst%20t%3DString%28u%2B%2B%29%3Be.dataset.grabberCmId%3Dt%3Bconst%20o%3De.closest%28%22pre%22%29%7C%7Ce%3Btry%7Bconst%20a%3Dawait%20m%28e%29%3Bp.set%28t%2C%7Blanguage%3Ag%28o%29%2Ccode%3Aa%7D%29%7Dcatch%28a%29%7Bp.set%28t%2C%7Blanguage%3Ag%28o%29%2Ccode%3Ae.textContent%7D%29%7D%7D%7D%2Cf%3D%5B%22button%22%2C%22svg%22%2C%22textarea%22%2C%22input%22%2C%27%5Brole%3D%22toolbar%22%5D%27%2C%27%5Baria-hidden%3D%22true%22%5D%27%2C%22.sr-only%22%2C%27%5Bdata-testid%2A%3D%22reactions%22%5D%27%2C%27%5Bdata-testid%24%3D%22-button%22%5D%27%2C%27%5Bdata-testid%3D%22sentinel-div%22%5D%27%2C%27%5Bdata-testid%3D%22backstage-chats%22%5D%27%5D.join%28%22%2C%22%29%2Cx%3D%7BA%3A%5B%22href%22%2C%22title%22%5D%2CIMG%3A%5B%22src%22%2C%22alt%22%5D%2CTD%3A%5B%22colspan%22%2C%22rowspan%22%5D%2CTH%3A%5B%22colspan%22%2C%22rowspan%22%5D%2CCODE%3A%5B%22class%22%5D%7D%2Cb%3De%3D%3E%7Be.querySelectorAll%28%22%2A%22%29.forEach%28e%3D%3E%7Bconst%20t%3Dx%5Be.tagName%5D%7C%7C%5B%5D%3BArray.from%28e.attributes%29.forEach%28o%3D%3E%7Bt.includes%28o.name%29%7C%7Ce.removeAttribute%28o.name%29%7D%29%7D%29%7D%2Cy%3D%28e%2Ct%29%3D%3E%7Bconst%20o%3De.clone%3Breturn%20o.querySelectorAll%28%27%5Bid%2A%3D%22-content-%22%5D%27%29.forEach%28e%3D%3E%7Bconst%20o%3Dt.get%28e.id%29%3Bo%26%26o.textContent.trim%28%29.length%3Ee.textContent.trim%28%29.length%26%26e.replaceWith%28o.cloneNode%28%210%29%29%7D%29%2Co.querySelectorAll%28%22.cm-editor%5Bdata-grabber-cm-id%5D%22%29.forEach%28e%3D%3E%7Bconst%20t%3Dp.get%28e.dataset.grabberCmId%29%2Co%3Ddocument.createElement%28%22pre%22%29%2Ca%3Ddocument.createElement%28%22code%22%29%3Ba.className%3Dt%3F%60language-%24%7Bt.language.toLowerCase%28%29%7D%60%3A%22%22%2Ca.textContent%3Dt%3Ft.code%3Ae.textContent%2Co.appendChild%28a%29%2C%28e.closest%28%22pre%22%29%7C%7Ce%29.replaceWith%28o%29%7D%29%2Co.querySelectorAll%28f%29.forEach%28e%3D%3Ee.remove%28%29%29%2Cb%28o%29%2Co%7D%2Cw%3De%3D%3Enew%20Promise%28%28t%2Co%29%3D%3E%7Bconst%20a%3Dnew%20FileReader%3Ba.onload%3D%28%29%3D%3Et%28a.result%29%2Ca.onerror%3Do%2Ca.readAsDataURL%28e%29%7D%29%2CS%3Dasync%20e%3D%3E%7Bconst%20t%3Dnew%20Map%2Co%3DArray.from%28e.querySelectorAll%28%22img%5Bsrc%5D%22%29%29%3Bfor%28const%20e%20of%20o%29%7Bconst%20o%3Dnew%20URL%28e.getAttribute%28%22src%22%29%2Clocation.href%29.href%3Btry%7Bif%28%21t.has%28o%29%29%7Bs%28%22inlining%20image%E2%80%A6%22%29%3Bconst%20e%3Dawait%20fetch%28o%2C%7Bcredentials%3A%22include%22%7D%29%3Bif%28%21e.ok%29throw%20new%20Error%28%60HTTP%20%24%7Be.status%7D%60%29%3Bconst%20a%3Dawait%20e.blob%28%29%3Bif%28a.size%3E8388608%29throw%20new%20Error%28%22image%20too%20large%20to%20inline%22%29%3Bt.set%28o%2Cawait%20w%28a%29%29%7De.src%3Dt.get%28o%29%7Dcatch%28t%29%7Be.src%3Do%7D%7D%7D%2CC%3De%3D%3Ee.replace%28%2F%26%2Fg%2C%22%26amp%3B%22%29.replace%28%2F%3C%2Fg%2C%22%26lt%3B%22%29.replace%28%2F%3E%2Fg%2C%22%26gt%3B%22%29%2Cv%3D%28t%2Co%29%3D%3E%7Bconst%20a%3DC%28t%29%2Cn%3Do.map%28%28%7Brole%3Ae%2Chtml%3At%7D%29%3D%3E%60%5Cn%20%20%20%20%20%20%3Cdiv%20class%3D%22message%20%24%7Be%7D%22%3E%5Cn%20%20%20%20%20%20%20%20%3Cdiv%20class%3D%22role-label%22%3E%24%7B%22user%22%3D%3D%3De%3F%22You%22%3A%22Assistant%22%7D%3C%2Fdiv%3E%5Cn%20%20%20%20%20%20%20%20%24%7Bt%7D%5Cn%20%20%20%20%20%20%3C%2Fdiv%3E%60%29.join%28%22%5Cn%22%29%3Breturn%60%3C%21DOCTYPE%20html%3E%5Cn%3Chtml%3E%5Cn%3Chead%3E%5Cn%3Cmeta%20charset%3D%22utf-8%22%3E%5Cn%3Ctitle%3E%24%7Ba%7D%3C%2Ftitle%3E%5Cn%3Cstyle%3E%5Cn%20%20%20%20body%20%7B%20font%3A%2015px%2F1.6%20-apple-system%2CSegoe%20UI%2CHelvetica%2CArial%2Csans-serif%3B%20max-width%3A%20820px%3B%5Cn%20%20%20%20%20%20%20%20%20%20%20margin%3A%2032px%20auto%3B%20padding%3A%200%2016px%3B%20color%3A%20%231a1a1a%3B%20background%3A%20%23fff%3B%20%7D%5Cn%20%20%20%20h1.export-title%20%7B%20font-size%3A%2020px%3B%20margin-bottom%3A%204px%3B%20%7D%5Cn%20%20%20%20.export-meta%20%7B%20color%3A%20%23666%3B%20font-size%3A%2012px%3B%20margin-bottom%3A%2024px%3B%20%7D%5Cn%20%20%20%20.message%20%7B%20border-radius%3A%2012px%3B%20padding%3A%2014px%2018px%3B%20margin%3A%2014px%200%3B%20%7D%5Cn%20%20%20%20.message.user%20%7B%20background%3A%20%23eef3ff%3B%20%7D%5Cn%20%20%20%20.message.assistant%20%7B%20background%3A%20%23f6f6f7%3B%20%7D%5Cn%20%20%20%20.message%20.role-label%20%7B%20font-size%3A%2011px%3B%20text-transform%3A%20uppercase%3B%20letter-spacing%3A%20.04em%3B%5Cn%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20color%3A%20%23888%3B%20margin-bottom%3A%206px%3B%20%7D%5Cn%20%20%20%20.message%20img%20%7B%20max-width%3A%20100%25%3B%20border-radius%3A%208px%3B%20display%3A%20block%3B%20margin%3A%208px%200%3B%20%7D%5Cn%20%20%20%20.message%20pre%20%7B%20background%3A%20%231e1e1e%3B%20color%3A%20%23e6e6e6%3B%20padding%3A%2012px%2014px%3B%20border-radius%3A%208px%3B%5Cn%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20overflow-x%3A%20auto%3B%20font%3A%2013px%2F1.5%20ui-monospace%2CConsolas%2Cmonospace%3B%20%7D%5Cn%20%20%20%20.message%20code%20%7B%20font%3A%2013px%2F1.5%20ui-monospace%2CConsolas%2Cmonospace%3B%20%7D%5Cn%20%20%20%20.message%20%3Anot%28pre%29%20%3E%20code%20%7B%20background%3A%20%23eee%3B%20color%3A%20%231a1a1a%3B%20padding%3A%201px%205px%3B%20border-radius%3A%204px%3B%20%7D%5Cn%20%20%20%20.message%20table%20%7B%20border-collapse%3A%20collapse%3B%20width%3A%20100%25%3B%20margin%3A%2010px%200%3B%20%7D%5Cn%20%20%20%20.message%20th%2C%20.message%20td%20%7B%20border%3A%201px%20solid%20%23ddd%3B%20padding%3A%206px%2010px%3B%20text-align%3A%20left%3B%20%7D%5Cn%20%20%20%20.message%20blockquote%20%7B%20border-left%3A%203px%20solid%20%23ccc%3B%20margin%3A%208px%200%3B%20padding%3A%202px%2012px%3B%20color%3A%20%23555%3B%20%7D%5Cn%20%20%3C%2Fstyle%3E%5Cn%3C%2Fhead%3E%5Cn%3Cbody%3E%5Cn%3Ch1%20class%3D%22export-title%22%3E%24%7Ba%7D%3C%2Fh1%3E%5Cn%3Cdiv%20class%3D%22export-meta%22%3ESaved%20by%20%24%7Be%7D%20%E2%80%A2%20%24%7B%28new%20Date%29.toLocaleString%28%29%7D%20%E2%80%A2%20%24%7BC%28location.href%29%7D%3C%2Fdiv%3E%5Cn%24%7Bn%7D%5Cn%3C%2Fbody%3E%5Cn%3C%2Fhtml%3E%60%7D%2CT%3D%28t%2Co%29%3D%3E%7Bconst%20a%3Dnew%20Blob%28%5Bo%5D%2C%7Btype%3A%22text%2Fhtml%22%7D%29%2Cn%3DURL.createObjectURL%28a%29%2Cs%3Ddocument.createElement%28%22a%22%29%3Bs.href%3Dn%2Cs.download%3Dt%2Cs.title%3De%2Cdocument.body.appendChild%28s%29%2Cs.click%28%29%2Cdocument.body.removeChild%28s%29%2CURL.revokeObjectURL%28n%29%7D%3Btry%7Bif%28s%28%22starting%E2%80%A6%22%29%2Ci.legacy%29%7Bconst%20t%3Ddocument.querySelector%28i.legacySelector%29%3Bif%28%21t%29return%20void%20alert%28%60%24%7Be%7D%3A%20no%20conversation%20found%20on%20this%20page.%60%29%3Bconst%20n%3Dt.cloneNode%28%210%29%3Bn.querySelectorAll%28f%29.forEach%28e%3D%3Ee.remove%28%29%29%2Cb%28n%29%2Cs%28%22inlining%20images%E2%80%A6%22%29%2Cawait%20S%28n%29%3Bconst%20r%3Di.getTitle%28%29%7C%7C%60chatExport%24%7Ba%28%29%7D%60%2Cl%3Dv%28r%2C%5B%7Brole%3A%22assistant%22%2Chtml%3An.innerHTML%7D%5D%29%3Breturn%20void%20T%28%60%24%7Bo%28r%29%7D.html%60%2Cl%29%7Dconst%20r%3Ddocument.querySelector%28i.scrollAnchorSelector%29%3Bif%28%21r%29return%20void%20alert%28%60%24%7Be%7D%3A%20no%20conversation%20found%20on%20this%20page.%60%29%3Bconst%20l%3D%28e%3D%3E%7Blet%20t%3De%3Bfor%28%3Bt%26%26t%21%3D%3Ddocument.body%26%26t%21%3D%3Ddocument.documentElement%3B%29%7Bconst%20e%3DgetComputedStyle%28t%29%3Bif%28%2F%28auto%7Cscroll%29%2F.test%28e.overflowY%29%26%26t.scrollHeight%3Et.clientHeight%2B4%29return%20t%3Bt%3Dt.parentElement%7Dreturn%20document.scrollingElement%7C%7Cdocument.documentElement%7D%29%28r%29%3Bs%28%22scanning%20conversation%E2%80%A6%22%29%3Bconst%7BmessageSkeletonsById%3Ac%2CbestChunkById%3Ad%7D%3Dawait%28async%20e%3D%3E%7Bconst%20o%3Dnew%20Map%2Ca%3Dnew%20Map%2Cn%3Dasync%28%29%3D%3E%7Bconst%20e%3DArray.from%28document.querySelectorAll%28i.messageSelector%29%29.filter%28%28e%2Ct%2Co%29%3D%3E%21o.some%28t%3D%3Et%21%3D%3De%26%26t.contains%28e%29%29%29%3Bfor%28const%20t%20of%20e%29%7Bawait%20h%28t%29%3Bconst%20e%3Di.getMessageId%28t%29%3Bo.set%28e%2C%7Brole%3Ai.getRole%28t%29%2Cclone%3At.cloneNode%28%210%29%7D%29%7Ddocument.querySelectorAll%28%27%5Bid%2A%3D%22-content-%22%5D%27%29.forEach%28e%3D%3E%7Bconst%20t%3De.id%2Co%3De.textContent.trim%28%29.length%3Bif%280%3D%3D%3Do%29return%3Bconst%20n%3Da.get%28t%29%3B%28%21n%7C%7Co%3En.textContent.trim%28%29.length%29%26%26a.set%28t%2Ce.cloneNode%28%210%29%29%7D%29%7D%2Cr%3De.scrollTop%3Be.scrollTop%3D0%2Cawait%20t%28350%29%2Cawait%20n%28%29%3Blet%20l%3D-1%2Cc%3D0%3Bfor%28%3Be.scrollTop%3Ce.scrollHeight-e.clientHeight-2%26%26e.scrollTop%21%3D%3Dl%26%26c%3C400%3B%29l%3De.scrollTop%2Cs%28%60scanning%20conversation%E2%80%A6%20%28%24%7Bc%2B1%7D%29%60%29%2Ce.scrollTop%3Dl%2B.8%2Ae.clientHeight%2Cawait%20t%28220%29%2Cawait%20n%28%29%2Cc%2B%2B%3Breturn%20await%20t%28350%29%2Cawait%20n%28%29%2Ce.scrollTop%3Dr%2C%7BmessageSkeletonsById%3Ao%2CbestChunkById%3Aa%7D%7D%29%28l%29%3Bif%280%3D%3D%3Dc.size%29return%20void%20alert%28%60%24%7Be%7D%3A%20no%20messages%20could%20be%20captured.%60%29%3Bs%28%22cleaning%20up%E2%80%A6%22%29%3Bconst%20m%3D%5B%5D%3Bfor%28const%5B%2Ce%5Dof%20c%29m.push%28%7Brole%3Ae.role%2Cnode%3Ay%28e%2Cd%29%7D%29%3Bs%28%22inlining%20images%E2%80%A6%22%29%3Bfor%28const%20e%20of%20m%29await%20S%28e.node%29%3Bconst%20g%3Di.getTitle%28%29%7C%7C%60chatExport%24%7Ba%28%29%7D%60%2Cu%3Dv%28g%2Cm.map%28%28%7Brole%3Ae%2Cnode%3At%7D%29%3D%3E%28%7Brole%3Ae%2Chtml%3At.innerHTML%7D%29%29%29%3BT%28%60%24%7Bo%28g%29%7D_ChatExport.html%60%2Cu%29%2Cs%28%22done%20%E2%9C%93%22%29%2CsetTimeout%28%28%29%3D%3En.remove%28%29%2C1500%29%7Dcatch%28t%29%7Balert%28%60%24%7Be%7D%20failed%3A%20%24%7Bt.message%7D%60%29%7Dfinally%7BsetTimeout%28%28%29%3D%3En.remove%28%29%2C1500%29%7D%7D%29%28%29%3B</textarea>
+      <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.value).then(()=>{this.textContent='Copied ✓'; setTimeout(()=>this.textContent='Copy code', 1200)})">Copy code</button>
+    </details>
+  </div>
+
+  <div class="card">
+    <p class="step-label">Use it</p>
+    <ol>
+      <li>Open a conversation on any supported site.</li>
+      <li>Click the bookmarklet. A small status toast appears bottom-right.</li>
+      <li>It auto-scrolls the conversation to force-load everything, then downloads <code class="inline">&lt;title&gt;_ChatExport.html</code>.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <p class="step-label">What's new in v3</p>
+    <p class="changelog">
+      <b>Claude.ai support added.</b> One caveat: I could only verify this against a saved, empty <code class="inline">claude.ai/new</code> page — no live conversation was available to confirm Claude's exact message markup, so the Claude.ai adapter unions several plausible selectors for the user/assistant message containers instead of betting on one, and dedupes if more than one guess matches the same message. Everything else (ChatGPT, Copilot, Gemini AI Studio) is unchanged from before.
+    </p>
+    <p class="changelog" style="margin-top:10px">
+      If it downloads a file with only 1–2 messages, or the "no conversation found" alert fires on a real Claude.ai chat, that means the guessed selectors missed — send me the output and I'll tighten it against the real markup.
+    </p>
+  </div>
+
+  <div class="card">
+    <p class="step-label">Readable source</p>
+    <details>
+      <summary>Show the full unminified source (this is what actually runs, before minifying)</summary>
+      <pre class="source">(async () =&gt; {
+  const TOOL_NAME = &quot;ChatGrabber&quot;;
+
+  const sleep = (milliseconds) =&gt; new Promise((resolve) =&gt; setTimeout(resolve, milliseconds));
+  const sanitizeFilename = (name) =&gt; name.replace(/[\\/:*?&quot;&lt;&gt;|]+/g, &quot;_&quot;).trim().slice(0, 100);
+  const buildTimestamp = () =&gt; new Date().toISOString().replace(/[-:T]/g, &quot;&quot;).slice(0, 15);
+
+  // ---- status toast ----
+  const statusToast = document.createElement(&quot;div&quot;);
+  statusToast.title = TOOL_NAME;
+  Object.assign(statusToast.style, {
+    position: &quot;fixed&quot;,
+    bottom: &quot;16px&quot;,
+    right: &quot;16px&quot;,
+    zIndex: 2147483647,
+    background: &quot;#111&quot;,
+    color: &quot;#fff&quot;,
+    font: &quot;12px/1.4 -apple-system,Segoe UI,sans-serif&quot;,
+    padding: &quot;8px 12px&quot;,
+    borderRadius: &quot;8px&quot;,
+    boxShadow: &quot;0 2px 10px rgba(0,0,0,.35)&quot;,
+    maxWidth: &quot;260px&quot;,
+    pointerEvents: &quot;none&quot;,
+  });
+  const setStatus = (message) =&gt; {
+    statusToast.textContent = `${TOOL_NAME}: ${message}`;
+    if (!statusToast.isConnected) document.body.appendChild(statusToast);
+  };
+
+  // ---- site detection: ordered list of [siteName, matcher], first match wins ----
+  // &quot;copilot&quot; stays last as the catch-all default (Copilot is served from several hostnames).
+  const SITE_DETECTORS = [
+    [&quot;geminiai&quot;, () =&gt; location.hostname.includes(&quot;aistudio.google.com&quot;)],
+    [&quot;chatgpt&quot;, () =&gt; /chatgpt\.com|openai\.com/.test(location.hostname)],
+    [&quot;claudeai&quot;, () =&gt; location.hostname.includes(&quot;claude.ai&quot;)],
+    [&quot;copilot&quot;, () =&gt; true],
+  ];
+  const site = SITE_DETECTORS.find(([, matches]) =&gt; matches())[0];
+
+  // ---- synthetic per-element IDs for sites that don&#x27;t expose stable message IDs ----
+  const syntheticIdsByElement = new WeakMap();
+  const getOrCreateSyntheticId = (element) =&gt; {
+    if (!syntheticIdsByElement.has(element)) {
+      syntheticIdsByElement.set(element, `msg-${Math.random().toString(36).slice(2)}`);
+    }
+    return syntheticIdsByElement.get(element);
+  };
+
+  // ---- drop elements that are nested inside another already-matched element ----
+  // Needed for claudeai, whose messageSelector unions several guessed selectors that
+  // could theoretically overlap (e.g. a wrapper and an inner node both matching).
+  const dedupeNestedElements = (elements) =&gt;
+    elements.filter((element, _, all) =&gt; !all.some((other) =&gt; other !== element &amp;&amp; other.contains(element)));
+
+  const SITE_CONFIGS = {
+    chatgpt: {
+      messageSelector: &quot;[data-message-id][data-message-author-role]&quot;,
+      getMessageId: (element) =&gt; element.getAttribute(&quot;data-message-id&quot;),
+      getRole: (element) =&gt; (element.getAttribute(&quot;data-message-author-role&quot;) === &quot;user&quot; ? &quot;user&quot; : &quot;assistant&quot;),
+      getTitle: () =&gt; (document.querySelector(&quot;h1&quot;)?.textContent || document.title || &quot;&quot;).trim(),
+      scrollAnchorSelector: &quot;[data-message-id][data-message-author-role], #thread&quot;,
+    },
+    copilot: {
+      messageSelector: &#x27;[id$=&quot;-user-message&quot;], [data-testid=&quot;ai-message&quot;]&#x27;,
+      getMessageId: (element) =&gt;
+        element.id
+          ? element.id
+          : element.getAttribute(&quot;aria-labelledby&quot;)
+          ? element.getAttribute(&quot;aria-labelledby&quot;)
+          : getOrCreateSyntheticId(element),
+      getRole: (element) =&gt; (element.matches(&#x27;[data-testid=&quot;ai-message&quot;]&#x27;) ? &quot;assistant&quot; : &quot;user&quot;),
+      getTitle: () =&gt; {
+        const activeChat =
+          document.querySelector(&quot;a[data-sidebar-item][data-active] span&quot;) ||
+          document.querySelector(&quot;[aria-selected=&#x27;true&#x27;] p[title]&quot;);
+        return (activeChat ? activeChat.getAttribute(&quot;title&quot;) || activeChat.textContent : &quot;&quot;).trim();
+      },
+      scrollAnchorSelector: &#x27;[id$=&quot;-user-message&quot;], [data-testid=&quot;ai-message&quot;], #thread, div[data-content=&quot;conversation&quot;]&#x27;,
+    },
+    // Claude.ai&#x27;s exact DOM wasn&#x27;t available to verify against a live conversation, so this
+    // unions every plausible selector for each role rather than betting on one. Harmless if a
+    // guess never matches; dedupeNestedElements() keeps a guessed wrapper/inner pair from
+    // double-counting the same message if more than one guess happens to hit.
+    claudeai: {
+      messageSelector:
+        &#x27;[data-testid=&quot;user-message&quot;], .font-user-message, [data-testid=&quot;assistant-message&quot;], .font-claude-message, .standard-markdown&#x27;,
+      getMessageId: (element) =&gt; getOrCreateSyntheticId(element),
+      getRole: (element) =&gt; (element.matches(&#x27;[data-testid=&quot;user-message&quot;], .font-user-message&#x27;) ? &quot;user&quot; : &quot;assistant&quot;),
+      getTitle: () =&gt; {
+        const fromDocumentTitle = (document.title || &quot;&quot;).replace(/\s*[-–]\s*Claude\s*$/, &quot;&quot;).trim();
+        return fromDocumentTitle || (document.querySelector(&quot;h1&quot;)?.textContent || &quot;&quot;).trim();
+      },
+      scrollAnchorSelector:
+        &#x27;[data-testid=&quot;user-message&quot;], .font-user-message, [data-testid=&quot;assistant-message&quot;], .font-claude-message, .standard-markdown, main&#x27;,
+    },
+    geminiai: {
+      legacy: true,
+      legacySelector: &quot;ms-prompt-renderer&quot;,
+      getTitle: () =&gt; (document.querySelector(&quot;h1.mode-title&quot;)?.textContent || &quot;&quot;).trim(),
+    },
+  };
+  const config = SITE_CONFIGS[site];
+
+  // ---- merge two overlapping arrays of text lines (used to stitch scrolled CodeMirror captures) ----
+  const mergeOverlappingLines = (previousLines, newLines) =&gt; {
+    if (previousLines.length === 0) return newLines;
+    for (let overlap = Math.min(previousLines.length, newLines.length); overlap &gt; 0; overlap--) {
+      if (previousLines.slice(-overlap).join(&quot;\n&quot;) === newLines.slice(0, overlap).join(&quot;\n&quot;)) {
+        return previousLines.concat(newLines.slice(overlap));
+      }
+    }
+    return previousLines.concat(newLines);
+  };
+
+  // ---- capture a CodeMirror 6 editor&#x27;s full text by scrolling its internal viewport ----
+  const captureCodeMirrorText = async (editorElement) =&gt; {
+    const scroller = editorElement.querySelector(&quot;.cm-scroller&quot;) || editorElement;
+    const readVisibleLines = () =&gt; Array.from(scroller.querySelectorAll(&quot;.cm-line&quot;)).map((line) =&gt; line.textContent);
+    let capturedLines = readVisibleLines();
+    if (scroller.scrollHeight &gt; scroller.clientHeight + 4) {
+      const originalScrollTop = scroller.scrollTop;
+      scroller.scrollTop = 0;
+      await sleep(220);
+      capturedLines = readVisibleLines();
+      let previousScrollTop = -1;
+      let steps = 0;
+      while (
+        scroller.scrollTop &lt; scroller.scrollHeight - scroller.clientHeight - 2 &amp;&amp;
+        scroller.scrollTop !== previousScrollTop &amp;&amp;
+        steps &lt; 400
+      ) {
+        previousScrollTop = scroller.scrollTop;
+        scroller.scrollTop = previousScrollTop + 0.8 * scroller.clientHeight;
+        await sleep(220);
+        capturedLines = mergeOverlappingLines(capturedLines, readVisibleLines());
+        steps++;
+      }
+      scroller.scrollTop = originalScrollTop;
+    }
+    return capturedLines.join(&quot;\n&quot;);
+  };
+
+  const detectCodeLanguage = (preOrEditorElement) =&gt; {
+    const languageLabel = preOrEditorElement.querySelector(&#x27;[class*=&quot;justify-self-start&quot;]&#x27;);
+    return (languageLabel ? languageLabel.textContent.trim() : &quot;&quot;) || &quot;text&quot;;
+  };
+
+  let codeMirrorIdCounter = 0;
+  const codeMirrorCaptures = new Map();
+  const captureCodeBlocksIn = async (messageElement) =&gt; {
+    const editors = Array.from(messageElement.querySelectorAll(&quot;.cm-editor&quot;));
+    for (const editor of editors) {
+      if (editor.dataset.grabberCmId) continue;
+      const captureId = String(codeMirrorIdCounter++);
+      editor.dataset.grabberCmId = captureId;
+      const container = editor.closest(&quot;pre&quot;) || editor;
+      try {
+        const code = await captureCodeMirrorText(editor);
+        codeMirrorCaptures.set(captureId, { language: detectCodeLanguage(container), code });
+      } catch (error) {
+        codeMirrorCaptures.set(captureId, { language: detectCodeLanguage(container), code: editor.textContent });
+      }
+    }
+  };
+
+  // ---- strip interactive/decorative chrome that shouldn&#x27;t end up in the export ----
+  const CHROME_SELECTOR = [
+    &quot;button&quot;,
+    &quot;svg&quot;,
+    &quot;textarea&quot;,
+    &quot;input&quot;,
+    &#x27;[role=&quot;toolbar&quot;]&#x27;,
+    &#x27;[aria-hidden=&quot;true&quot;]&#x27;,
+    &quot;.sr-only&quot;,
+    &#x27;[data-testid*=&quot;reactions&quot;]&#x27;,
+    &#x27;[data-testid$=&quot;-button&quot;]&#x27;,
+    &#x27;[data-testid=&quot;sentinel-div&quot;]&#x27;,
+    &#x27;[data-testid=&quot;backstage-chats&quot;]&#x27;,
+  ].join(&quot;,&quot;);
+
+  const ALLOWED_ATTRIBUTES_BY_TAG = {
+    A: [&quot;href&quot;, &quot;title&quot;],
+    IMG: [&quot;src&quot;, &quot;alt&quot;],
+    TD: [&quot;colspan&quot;, &quot;rowspan&quot;],
+    TH: [&quot;colspan&quot;, &quot;rowspan&quot;],
+    CODE: [&quot;class&quot;],
+  };
+  const stripDisallowedAttributes = (root) =&gt; {
+    root.querySelectorAll(&quot;*&quot;).forEach((element) =&gt; {
+      const allowedAttributes = ALLOWED_ATTRIBUTES_BY_TAG[element.tagName] || [];
+      Array.from(element.attributes).forEach((attribute) =&gt; {
+        if (!allowedAttributes.includes(attribute.name)) element.removeAttribute(attribute.name);
+      });
+    });
+  };
+
+  // ---- build the final clean DOM node for one message: swap in the best-captured chunk
+  // overrides (for sites that virtualize long replies) and CodeMirror captures, strip chrome ----
+  const buildCleanMessageNode = (messageSkeleton, chunkOverridesById) =&gt; {
+    const node = messageSkeleton.clone;
+    node.querySelectorAll(&#x27;[id*=&quot;-content-&quot;]&#x27;).forEach((chunkElement) =&gt; {
+      const override = chunkOverridesById.get(chunkElement.id);
+      if (override &amp;&amp; override.textContent.trim().length &gt; chunkElement.textContent.trim().length) {
+        chunkElement.replaceWith(override.cloneNode(true));
+      }
+    });
+    node.querySelectorAll(&quot;.cm-editor[data-grabber-cm-id]&quot;).forEach((editorElement) =&gt; {
+      const capture = codeMirrorCaptures.get(editorElement.dataset.grabberCmId);
+      const pre = document.createElement(&quot;pre&quot;);
+      const code = document.createElement(&quot;code&quot;);
+      code.className = capture ? `language-${capture.language.toLowerCase()}` : &quot;&quot;;
+      code.textContent = capture ? capture.code : editorElement.textContent;
+      pre.appendChild(code);
+      (editorElement.closest(&quot;pre&quot;) || editorElement).replaceWith(pre);
+    });
+    node.querySelectorAll(CHROME_SELECTOR).forEach((element) =&gt; element.remove());
+    stripDisallowedAttributes(node);
+    return node;
+  };
+
+  const blobToDataUrl = (blob) =&gt;
+    new Promise((resolve, reject) =&gt; {
+      const reader = new FileReader();
+      reader.onload = () =&gt; resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+
+  const inlineImages = async (root) =&gt; {
+    const dataUrlsBySrc = new Map();
+    const images = Array.from(root.querySelectorAll(&quot;img[src]&quot;));
+    for (const image of images) {
+      const absoluteSrc = new URL(image.getAttribute(&quot;src&quot;), location.href).href;
+      try {
+        if (!dataUrlsBySrc.has(absoluteSrc)) {
+          setStatus(&quot;inlining image…&quot;);
+          const response = await fetch(absoluteSrc, { credentials: &quot;include&quot; });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const blob = await response.blob();
+          if (blob.size &gt; 8388608) throw new Error(&quot;image too large to inline&quot;);
+          dataUrlsBySrc.set(absoluteSrc, await blobToDataUrl(blob));
+        }
+        image.src = dataUrlsBySrc.get(absoluteSrc);
+      } catch (error) {
+        image.src = absoluteSrc;
+      }
+    }
+  };
+
+  const escapeHtml = (text) =&gt; text.replace(/&amp;/g, &quot;&amp;amp;&quot;).replace(/&lt;/g, &quot;&amp;lt;&quot;).replace(/&gt;/g, &quot;&amp;gt;&quot;);
+
+  const buildExportHtml = (title, messages) =&gt; {
+    const safeTitle = escapeHtml(title);
+    const messagesHtml = messages
+      .map(
+        ({ role, html }) =&gt; `
+      &lt;div class=&quot;message ${role}&quot;&gt;
+        &lt;div class=&quot;role-label&quot;&gt;${role === &quot;user&quot; ? &quot;You&quot; : &quot;Assistant&quot;}&lt;/div&gt;
+        ${html}
+      &lt;/div&gt;`
+      )
+      .join(&quot;\n&quot;);
+    return `&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;title&gt;${safeTitle}&lt;/title&gt;
+&lt;style&gt;
+    body { font: 15px/1.6 -apple-system,Segoe UI,Helvetica,Arial,sans-serif; max-width: 820px;
+           margin: 32px auto; padding: 0 16px; color: #1a1a1a; background: #fff; }
+    h1.export-title { font-size: 20px; margin-bottom: 4px; }
+    .export-meta { color: #666; font-size: 12px; margin-bottom: 24px; }
+    .message { border-radius: 12px; padding: 14px 18px; margin: 14px 0; }
+    .message.user { background: #eef3ff; }
+    .message.assistant { background: #f6f6f7; }
+    .message .role-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em;
+                            color: #888; margin-bottom: 6px; }
+    .message img { max-width: 100%; border-radius: 8px; display: block; margin: 8px 0; }
+    .message pre { background: #1e1e1e; color: #e6e6e6; padding: 12px 14px; border-radius: 8px;
+                    overflow-x: auto; font: 13px/1.5 ui-monospace,Consolas,monospace; }
+    .message code { font: 13px/1.5 ui-monospace,Consolas,monospace; }
+    .message :not(pre) &gt; code { background: #eee; color: #1a1a1a; padding: 1px 5px; border-radius: 4px; }
+    .message table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+    .message th, .message td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; }
+    .message blockquote { border-left: 3px solid #ccc; margin: 8px 0; padding: 2px 12px; color: #555; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 class=&quot;export-title&quot;&gt;${safeTitle}&lt;/h1&gt;
+&lt;div class=&quot;export-meta&quot;&gt;Saved by ${TOOL_NAME} • ${new Date().toLocaleString()} • ${escapeHtml(location.href)}&lt;/div&gt;
+${messagesHtml}
+&lt;/body&gt;
+&lt;/html&gt;`;
+  };
+
+  const downloadHtml = (filename, html) =&gt; {
+    const blob = new Blob([html], { type: &quot;text/html&quot; });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement(&quot;a&quot;);
+    link.href = url;
+    link.download = filename;
+    link.title = TOOL_NAME;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  // ---- find the nearest scrollable ancestor of a message anchor element ----
+  const findScrollableAncestor = (anchorElement) =&gt; {
+    let current = anchorElement;
+    while (current &amp;&amp; current !== document.body &amp;&amp; current !== document.documentElement) {
+      const style = getComputedStyle(current);
+      if (/(auto|scroll)/.test(style.overflowY) &amp;&amp; current.scrollHeight &gt; current.clientHeight + 4) return current;
+      current = current.parentElement;
+    }
+    return document.scrollingElement || document.documentElement;
+  };
+
+  // ---- scroll the conversation top-to-bottom, capturing message skeletons + chunk overrides
+  // at every step so virtualized/unmounted content gets picked up ----
+  const scanConversation = async (scrollContainer) =&gt; {
+    const messageSkeletonsById = new Map();
+    const bestChunkById = new Map();
+
+    const captureCurrentlyVisible = async () =&gt; {
+      const visibleMessages = dedupeNestedElements(Array.from(document.querySelectorAll(config.messageSelector)));
+      for (const messageElement of visibleMessages) {
+        await captureCodeBlocksIn(messageElement);
+        const messageId = config.getMessageId(messageElement);
+        messageSkeletonsById.set(messageId, { role: config.getRole(messageElement), clone: messageElement.cloneNode(true) });
+      }
+      document.querySelectorAll(&#x27;[id*=&quot;-content-&quot;]&#x27;).forEach((chunkElement) =&gt; {
+        const chunkId = chunkElement.id;
+        const chunkTextLength = chunkElement.textContent.trim().length;
+        if (chunkTextLength === 0) return;
+        const bestSoFar = bestChunkById.get(chunkId);
+        if (!bestSoFar || chunkTextLength &gt; bestSoFar.textContent.trim().length) {
+          bestChunkById.set(chunkId, chunkElement.cloneNode(true));
+        }
+      });
+    };
+
+    const originalScrollTop = scrollContainer.scrollTop;
+    scrollContainer.scrollTop = 0;
+    await sleep(350);
+    await captureCurrentlyVisible();
+
+    let previousScrollTop = -1;
+    let steps = 0;
+    while (
+      scrollContainer.scrollTop &lt; scrollContainer.scrollHeight - scrollContainer.clientHeight - 2 &amp;&amp;
+      scrollContainer.scrollTop !== previousScrollTop &amp;&amp;
+      steps &lt; 400
+    ) {
+      previousScrollTop = scrollContainer.scrollTop;
+      setStatus(`scanning conversation… (${steps + 1})`);
+      scrollContainer.scrollTop = previousScrollTop + 0.8 * scrollContainer.clientHeight;
+      await sleep(220);
+      await captureCurrentlyVisible();
+      steps++;
+    }
+
+    await sleep(350);
+    await captureCurrentlyVisible();
+    scrollContainer.scrollTop = originalScrollTop;
+
+    return { messageSkeletonsById, bestChunkById };
+  };
+
+  try {
+    setStatus(&quot;starting…&quot;);
+
+    if (config.legacy) {
+      const legacyRoot = document.querySelector(config.legacySelector);
+      if (!legacyRoot) return void alert(`${TOOL_NAME}: no conversation found on this page.`);
+      const clone = legacyRoot.cloneNode(true);
+      clone.querySelectorAll(CHROME_SELECTOR).forEach((element) =&gt; element.remove());
+      stripDisallowedAttributes(clone);
+      setStatus(&quot;inlining images…&quot;);
+      await inlineImages(clone);
+      const title = config.getTitle() || `chatExport${buildTimestamp()}`;
+      const html = buildExportHtml(title, [{ role: &quot;assistant&quot;, html: clone.innerHTML }]);
+      return void downloadHtml(`${sanitizeFilename(title)}.html`, html);
+    }
+
+    const anchorElement = document.querySelector(config.scrollAnchorSelector);
+    if (!anchorElement) return void alert(`${TOOL_NAME}: no conversation found on this page.`);
+    const scrollContainer = findScrollableAncestor(anchorElement);
+
+    setStatus(&quot;scanning conversation…&quot;);
+    const { messageSkeletonsById, bestChunkById } = await scanConversation(scrollContainer);
+    if (messageSkeletonsById.size === 0) return void alert(`${TOOL_NAME}: no messages could be captured.`);
+
+    setStatus(&quot;cleaning up…&quot;);
+    const cleanMessages = [];
+    for (const [, messageSkeleton] of messageSkeletonsById) {
+      cleanMessages.push({ role: messageSkeleton.role, node: buildCleanMessageNode(messageSkeleton, bestChunkById) });
+    }
+
+    setStatus(&quot;inlining images…&quot;);
+    for (const message of cleanMessages) await inlineImages(message.node);
+
+    const title = config.getTitle() || `chatExport${buildTimestamp()}`;
+    const html = buildExportHtml(
+      title,
+      cleanMessages.map(({ role, node }) =&gt; ({ role, html: node.innerHTML }))
+    );
+    downloadHtml(`${sanitizeFilename(title)}_ChatExport.html`, html);
+    setStatus(&quot;done ✓&quot;);
+    setTimeout(() =&gt; statusToast.remove(), 1500);
+  } catch (error) {
+    alert(`${TOOL_NAME} failed: ${error.message}`);
+  } finally {
+    setTimeout(() =&gt; statusToast.remove(), 1500);
+  }
+})();
+</pre>
+    </details>
+  </div>
+
+  <footer>Self-contained — no external requests except fetching images to inline them, and only on the page you run it on.</footer>
+</main>
+</body>
+</html>
