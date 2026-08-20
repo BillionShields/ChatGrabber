@@ -1,6 +1,7 @@
 Update: August 2026
 New version with installer 
 
+Product renamed: ChatGrabber
 [ChatGrabber_v3_install](https://billionshields.github.io/ChatGrabber/ChatGrabber_v3_install.html
 )
 
